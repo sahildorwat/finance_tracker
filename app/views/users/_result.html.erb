@@ -1,11 +1,25 @@
-<div class="result-box">
-    <%= bootstrap_flash%>
-</div>
-
+<%if params[:action] == 'search'%>
+    <div class="result-box">
+        <%= bootstrap_flash%>
+    </div>
+<%end%>
 <%if @stock%>
     <div class="well results-block">
         <strong> Symbol:  </strong> <%= @stock.ticker%>
         <strong> Name:  </strong> <%= @stock.name%>
         <strong> LastPrice: </strong> <%= @stock.last_price%>
+
+        <%if current_user.can_add_stock?(@stock.ticker) %>
+            <%= link_to 'add to my stocks', user_stocks_path(user: current_user, ticker: @stock.ticker), class: 
+                            "btn btn-xs btn-success" , method: :post %>
+        <%else%>
+            <span class="label label-default"> Stock can not be added because you have allready added
+            <%if(!current_user.under_stock_limit?) %>
+                10 stocks
+            <%else%>
+                this stock
+            <%end%>
+            </span>
+        <%end%>
     </div>
 <%end%>

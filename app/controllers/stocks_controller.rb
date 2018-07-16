@@ -1,5 +1,4 @@
 class StocksController < ApplicationController
-
     def search 
         if params[:stock].blank?
             flash.now[:danger] = "You have entered empty String"
@@ -11,4 +10,5 @@ class StocksController < ApplicationController
             format.js {render partial: 'users/result'}
         end
     end
+
 end
